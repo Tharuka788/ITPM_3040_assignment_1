@@ -1,0 +1,23 @@
+{
+  "name": "itpm_3040_assignment_1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tharuka788/ITPM_3040_assignment_1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Tharuka788/ITPM_3040_assignment_1/issues"
+  },
+  "homepage": "https://github.com/Tharuka788/ITPM_3040_assignment_1#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.58.0",
+    "@types/node": "^25.1.0"
+  }
+}
