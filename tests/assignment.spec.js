@@ -1,12 +1,7 @@
 const { test, expect } = require('@playwright/test');
 
-// Singlish Input කොටුව (Placeholder එකෙන් අල්ලමු, වඩා ලේසියි)
 const INPUT_SELECTOR = 'textarea[placeholder="Type in Singlish..."]'; 
-// (එහෙම නැත්නම් පරණ විදිහට 'textarea' කියලා තිබ්බත් කමක් නෑ)
-
-// Sinhala Output කොටුව (Class නම හරහා අල්ලමු)
 const OUTPUT_SELECTOR = 'div.w-full.h-80.p-3.rounded-lg.ring-1.ring-slate-300.whitespace-pre-wrap';
-
 
 test.describe('Assignment 1 - SwiftTranslator Automation', () => {
 
@@ -14,16 +9,14 @@ test.describe('Assignment 1 - SwiftTranslator Automation', () => {
     await page.goto('https://www.swifttranslator.com/');
   });
 
-  // --- POSITIVE TESTS ---
+  // --- POSITIVE TESTS (Updated with 3s Wait & Spelling Fixes) ---
 
   test('Pos_Fun_001: Convert a simple daily sentence', async ({ page }) => {
-    // Input එකට textarea එක හොයාගන්න බැරි නම්, පළවෙනි textarea එක ගන්නවා
     const inputBox = page.locator('textarea').first();
     await inputBox.fill('mama gedhara yanavaa.');
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(3000); // 3 Seconds wait
     const outputBox = page.locator(OUTPUT_SELECTOR);
-    const actualOutput = await outputBox.innerText();
-    console.log('[Pos_Fun_001] Expected: මම ගෙදර යනවා. | Actual: ' + actualOutput);
+    await expect(outputBox).toHaveText('මම ගෙදර යනවා.');
   });
 
   test('Pos_Fun_002: Convert a compound sentence', async ({ page }) => {
@@ -31,17 +24,15 @@ test.describe('Assignment 1 - SwiftTranslator Automation', () => {
     await inputBox.fill('mama gedhara yanavaa, haebaeyi vahina nisaa.');
     await page.waitForTimeout(3000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
-    const actualOutput = await outputBox.innerText();
-    console.log('[Pos_Fun_002] Expected: මම ගෙදර යනවා, හැබැයි වහින නිසා. | Actual: ' + actualOutput);
+    await expect(outputBox).toHaveText('මම ගෙදර යනවා, හැබැයි වහින නිසා.');
   });
 
   test('Pos_Fun_003: Convert a complex sentence', async ({ page }) => {
     const inputBox = page.locator('textarea').first();
-    await inputBox.fill('oya enavaanam mama balan innavaa.');
+    await inputBox.fill('oyaa enavaanam mama balan innavaa.');
     await page.waitForTimeout(3000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
-    const actualOutput = await outputBox.innerText();
-    console.log('[Pos_Fun_003] Expected: ඔයා එනවානම් මම බලන් ඉන්නවා. | Actual: ' + actualOutput);
+    await expect(outputBox).toHaveText('ඔයා එනවානම් මම බලන් ඉන්නවා.');
   });
 
   test('Pos_Fun_004: Convert a question', async ({ page }) => {
@@ -49,8 +40,7 @@ test.describe('Assignment 1 - SwiftTranslator Automation', () => {
     await inputBox.fill('oyaata kohomadha?');
     await page.waitForTimeout(3000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
-    const actualOutput = await outputBox.innerText();
-    console.log('[Pos_Fun_004] Expected: ඔයාට කොහොමද? | Actual: ' + actualOutput);
+    await expect(outputBox).toHaveText('ඔයාට කොහොමද?');
   });
 
   test('Pos_Fun_005: Convert a command', async ({ page }) => {
@@ -58,8 +48,7 @@ test.describe('Assignment 1 - SwiftTranslator Automation', () => {
     await inputBox.fill('vahaama enna.');
     await page.waitForTimeout(3000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
-    const actualOutput = await outputBox.innerText();
-    console.log('[Pos_Fun_005] Expected: වහාම එන්න. | Actual: ' + actualOutput);
+    await expect(outputBox).toHaveText('වහාම එන්න.');
   });
 
   test('Pos_Fun_006: Convert a positive statement', async ({ page }) => {
@@ -67,8 +56,7 @@ test.describe('Assignment 1 - SwiftTranslator Automation', () => {
     await inputBox.fill('api heta enavaa.');
     await page.waitForTimeout(3000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
-    const actualOutput = await outputBox.innerText();
-    console.log('[Pos_Fun_006] Expected: අපි හෙට එනවා. | Actual: ' + actualOutput);
+    await expect(outputBox).toHaveText('අපි හෙට එනවා.');
   });
 
   test('Pos_Fun_007: Convert a negative statement', async ({ page }) => {
@@ -76,8 +64,7 @@ test.describe('Assignment 1 - SwiftTranslator Automation', () => {
     await inputBox.fill('mama ehema karannee naehae.');
     await page.waitForTimeout(3000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
-    const actualOutput = await outputBox.innerText();
-    console.log('[Pos_Fun_007] Expected: මම එහෙම කරන්නේ නැහැ. | Actual: ' + actualOutput);
+    await expect(outputBox).toHaveText('මම එහෙම කරන්නේ නැහැ.');
   });
 
   test('Pos_Fun_008: Convert a greeting', async ({ page }) => {
@@ -85,8 +72,7 @@ test.describe('Assignment 1 - SwiftTranslator Automation', () => {
     await inputBox.fill('suba udhaeesanak!');
     await page.waitForTimeout(3000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
-    const actualOutput = await outputBox.innerText();
-    console.log('[Pos_Fun_008] Expected: සුබ උදෑසනක්! | Actual: ' + actualOutput);
+    await expect(outputBox).toHaveText('සුබ උදෑසනක්!');
   });
 
   test('Pos_Fun_009: Convert a request', async ({ page }) => {
@@ -94,8 +80,7 @@ test.describe('Assignment 1 - SwiftTranslator Automation', () => {
     await inputBox.fill('mata udhavvak karanna puLuvandha?');
     await page.waitForTimeout(3000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
-    const actualOutput = await outputBox.innerText();
-    console.log('[Pos_Fun_009] Expected: මට උදව්වක් කරන්න පුළුවන්ද? | Actual: ' + actualOutput);
+    await expect(outputBox).toHaveText('මට උදව්වක් කරන්න පුළුවන්ද?');
   });
 
   test('Pos_Fun_010: Convert a polite phrase', async ({ page }) => {
@@ -103,8 +88,7 @@ test.describe('Assignment 1 - SwiftTranslator Automation', () => {
     await inputBox.fill('karuNaakaralaa mata eeka dhenna.');
     await page.waitForTimeout(3000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
-    const actualOutput = await outputBox.innerText();
-    console.log('[Pos_Fun_010] Expected: කරුණාකරලා මට ඒක දෙන්න. | Actual: ' + actualOutput);
+    await expect(outputBox).toHaveText('කරුණාකරලා මට ඒක දෙන්න.');
   });
 
   test('Pos_Fun_011: Convert an informal phrase', async ({ page }) => {
@@ -112,8 +96,7 @@ test.describe('Assignment 1 - SwiftTranslator Automation', () => {
     await inputBox.fill('eeyi, ooka dhiyan.');
     await page.waitForTimeout(3000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
-    const actualOutput = await outputBox.innerText();
-    console.log('[Pos_Fun_011] Expected: ඒයි, ඕක දියන්. | Actual: ' + actualOutput);
+    await expect(outputBox).toHaveText('ඒයි, ඕක දියන්.');
   });
 
   test('Pos_Fun_012: Convert a common expression', async ({ page }) => {
@@ -121,8 +104,7 @@ test.describe('Assignment 1 - SwiftTranslator Automation', () => {
     await inputBox.fill('mata nidhimathayi.');
     await page.waitForTimeout(3000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
-    const actualOutput = await outputBox.innerText();
-    console.log('[Pos_Fun_012] Expected: මට නිදිමතයි. | Actual: ' + actualOutput);
+    await expect(outputBox).toHaveText('මට නිදිමතයි.');
   });
 
   test('Pos_Fun_013: Convert a multi-word phrase', async ({ page }) => {
@@ -130,8 +112,7 @@ test.describe('Assignment 1 - SwiftTranslator Automation', () => {
     await inputBox.fill('poddak inna.');
     await page.waitForTimeout(3000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
-    const actualOutput = await outputBox.innerText();
-    console.log('[Pos_Fun_013] Expected: පොඩ්ඩක් ඉන්න. | Actual: ' + actualOutput);
+    await expect(outputBox).toHaveText('පොඩ්ඩක් ඉන්න.');
   });
 
   test('Pos_Fun_014: Convert past tense', async ({ page }) => {
@@ -139,8 +120,7 @@ test.describe('Assignment 1 - SwiftTranslator Automation', () => {
     await inputBox.fill('mama iiyee gedhara giyaa.');
     await page.waitForTimeout(3000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
-    const actualOutput = await outputBox.innerText();
-    console.log('[Pos_Fun_014] Expected: මම ඊයේ ගෙදර ගියා. | Actual: ' + actualOutput);
+    await expect(outputBox).toHaveText('මම ඊයේ ගෙදර ගියා.');
   });
 
   test('Pos_Fun_015: Convert future tense', async ({ page }) => {
@@ -148,8 +128,7 @@ test.describe('Assignment 1 - SwiftTranslator Automation', () => {
     await inputBox.fill('api heta yamu.');
     await page.waitForTimeout(3000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
-    const actualOutput = await outputBox.innerText();
-    console.log('[Pos_Fun_015] Expected: අපි හෙට යමු. | Actual: ' + actualOutput);
+    await expect(outputBox).toHaveText('අපි හෙට යමු.');
   });
 
   test('Pos_Fun_016: Convert plural subject', async ({ page }) => {
@@ -157,8 +136,7 @@ test.describe('Assignment 1 - SwiftTranslator Automation', () => {
     await inputBox.fill('api kaeema kanavaa.');
     await page.waitForTimeout(3000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
-    const actualOutput = await outputBox.innerText();
-    console.log('[Pos_Fun_016] Expected: අපි කෑම කනවා. | Actual: ' + actualOutput);
+    await expect(outputBox).toHaveText('අපි කෑම කනවා.');
   });
 
   test('Pos_Fun_017: Convert sentence with Tech term', async ({ page }) => {
@@ -166,8 +144,7 @@ test.describe('Assignment 1 - SwiftTranslator Automation', () => {
     await inputBox.fill('Zoom meeting ekak thiyenavaa.');
     await page.waitForTimeout(3000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
-    const actualOutput = await outputBox.innerText();
-    console.log('[Pos_Fun_017] Expected: Zoom meeting එකක් තියෙනවා. | Actual: ' + actualOutput);
+    await expect(outputBox).toHaveText('Zoom meeting එකක් තියෙනවා.');
   });
 
   test('Pos_Fun_018: Convert sentence with Place name', async ({ page }) => {
@@ -175,8 +152,7 @@ test.describe('Assignment 1 - SwiftTranslator Automation', () => {
     await inputBox.fill('api trip eka Kandy valata yamudha.');
     await page.waitForTimeout(3000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
-    const actualOutput = await outputBox.innerText();
-    console.log('[Pos_Fun_018] Expected: අපි trip එක Kandy වලට යමුද. | Actual: ' + actualOutput);
+    await expect(outputBox).toHaveText('අපි trip එක Kandy වලට යමුද.');
   });
 
   test('Pos_Fun_019: Convert sentence with abbreviation', async ({ page }) => {
@@ -184,8 +160,7 @@ test.describe('Assignment 1 - SwiftTranslator Automation', () => {
     await inputBox.fill('mata OTP eka aavaa.');
     await page.waitForTimeout(3000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
-    const actualOutput = await outputBox.innerText();
-    console.log('[Pos_Fun_019] Expected: මට OTP එක ආවා. | Actual: ' + actualOutput);
+    await expect(outputBox).toHaveText('මට OTP එක ආවා.');
   });
 
   test('Pos_Fun_020: Convert currency and numbers', async ({ page }) => {
@@ -193,17 +168,16 @@ test.describe('Assignment 1 - SwiftTranslator Automation', () => {
     await inputBox.fill('Rs. 5000 k dhenna.');
     await page.waitForTimeout(3000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
-    const actualOutput = await outputBox.innerText();
-    console.log('[Pos_Fun_020] Expected: Rs. 5000 ක් දෙන්න. | Actual: ' + actualOutput);
+    await expect(outputBox).toHaveText('Rs. 5000 ක් දෙන්න.');
   });
 
   test('Pos_Fun_021: Convert date format', async ({ page }) => {
     const inputBox = page.locator('textarea').first();
-    await inputBox.fill('ada 2026-05-21 venida.');
+    // වෙනස: "venida" -> "venidha"
+    await inputBox.fill('adha 2026-05-21 venidha.');
     await page.waitForTimeout(3000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
-    const actualOutput = await outputBox.innerText();
-    console.log('[Pos_Fun_021] Expected: අද 2026-05-21 වෙනිදා. | Actual: ' + actualOutput);
+    await expect(outputBox).toHaveText('අද 2026-05-21 වෙනිදා.');
   });
 
   test('Pos_Fun_022: Convert with punctuation', async ({ page }) => {
@@ -211,8 +185,7 @@ test.describe('Assignment 1 - SwiftTranslator Automation', () => {
     await inputBox.fill('aayuboovan! kohomadha?');
     await page.waitForTimeout(3000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
-    const actualOutput = await outputBox.innerText();
-    console.log('[Pos_Fun_022] Expected: ආයුබෝවන්! කොහොමද? | Actual: ' + actualOutput);
+    await expect(outputBox).toHaveText('ආයුබෝවන්! කොහොමද?');
   });
 
   test('Pos_Fun_023: Convert repeated words', async ({ page }) => {
@@ -220,8 +193,7 @@ test.describe('Assignment 1 - SwiftTranslator Automation', () => {
     await inputBox.fill('hari hari mama ennam.');
     await page.waitForTimeout(3000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
-    const actualOutput = await outputBox.innerText();
-    console.log('[Pos_Fun_023] Expected: හරි හරි මම එන්නම්. | Actual: ' + actualOutput);
+    await expect(outputBox).toHaveText('හරි හරි මම එන්නම්.');
   });
 
   test('Pos_Fun_024: Convert third person pronoun', async ({ page }) => {
@@ -229,106 +201,102 @@ test.describe('Assignment 1 - SwiftTranslator Automation', () => {
     await inputBox.fill('eyaa heta enavaa.');
     await page.waitForTimeout(3000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
-    const actualOutput = await outputBox.innerText();
-    console.log('[Pos_Fun_024] Expected: එයා හෙට එනවා. | Actual: ' + actualOutput);
+    await expect(outputBox).toHaveText('එයා හෙට එනවා.');
   });
 
 
-  // --- NEGATIVE TESTS ---
+  // --- NEGATIVE TESTS (Logs only) ---
 
   test('Neg_Fun_001: Verify handling of mixed English words', async ({ page }) => {
     const inputBox = page.locator('textarea').first();
     await inputBox.fill('malli cricket gahanavaa.');
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(2000); 
     const outputBox = page.locator(OUTPUT_SELECTOR);
     const actualOutput = await outputBox.innerText();
-    console.log('[Neg_Fun_001] Expected: Mixed/Error | Actual: ' + actualOutput);
+    console.log('[Neg_Fun_001] Actual: ' + actualOutput);
   });
 
   test('Neg_Fun_002: Verify handling of joined words', async ({ page }) => {
     const inputBox = page.locator('textarea').first();
     await inputBox.fill('mamagedharayanavaa');
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(2000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
     const actualOutput = await outputBox.innerText();
-    console.log('[Neg_Fun_002] Expected: Error/Joined | Actual: ' + actualOutput);
+    console.log('[Neg_Fun_002] Actual: ' + actualOutput);
   });
 
   test('Neg_Fun_003: Verify handling of heavy slang', async ({ page }) => {
     const inputBox = page.locator('textarea').first();
     await inputBox.fill('patta dial eka machan.');
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(2000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
     const actualOutput = await outputBox.innerText();
-    console.log('[Neg_Fun_003] Expected: Error/Slang | Actual: ' + actualOutput);
+    console.log('[Neg_Fun_003] Actual: ' + actualOutput);
   });
 
   test('Neg_Fun_004: Verify handling of special chars', async ({ page }) => {
     const inputBox = page.locator('textarea').first();
     await inputBox.fill('ma@ga_gedar^a');
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(2000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
     const actualOutput = await outputBox.innerText();
-    console.log('[Neg_Fun_004] Expected: Error/Chars | Actual: ' + actualOutput);
+    console.log('[Neg_Fun_004] Actual: ' + actualOutput);
   });
 
   test('Neg_Fun_005: Verify handling of missing vowels', async ({ page }) => {
     const inputBox = page.locator('textarea').first();
     await inputBox.fill('mm gdara ynva');
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(2000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
     const actualOutput = await outputBox.innerText();
-    console.log('[Neg_Fun_005] Expected: Error/Typos | Actual: ' + actualOutput);
+    console.log('[Neg_Fun_005] Actual: ' + actualOutput);
   });
 
   test('Neg_Fun_006: Verify handling of ambiguous sounds', async ({ page }) => {
     const inputBox = page.locator('textarea').first();
     await inputBox.fill('mama tea bonava.');
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(2000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
     const actualOutput = await outputBox.innerText();
-    console.log('[Neg_Fun_006] Expected: Error/Phonetic | Actual: ' + actualOutput);
+    console.log('[Neg_Fun_006] Actual: ' + actualOutput);
   });
 
   test('Neg_Fun_007: Verify handling of numbers attached to text', async ({ page }) => {
     const inputBox = page.locator('textarea').first();
     await inputBox.fill('mata100k dhenna.');
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(2000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
     const actualOutput = await outputBox.innerText();
-    console.log('[Neg_Fun_007] Expected: Error/Numbers | Actual: ' + actualOutput);
+    console.log('[Neg_Fun_007] Actual: ' + actualOutput);
   });
 
   test('Neg_Fun_008: Verify handling of unknown English words', async ({ page }) => {
     const inputBox = page.locator('textarea').first();
     await inputBox.fill('mama \'encyclopedia\' eka gaththa.');
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(2000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
     const actualOutput = await outputBox.innerText();
-    console.log('[Neg_Fun_008] Expected: Error/Transliteration | Actual: ' + actualOutput);
+    console.log('[Neg_Fun_008] Actual: ' + actualOutput);
   });
 
   test('Neg_Fun_009: Verify handling of URLs', async ({ page }) => {
     const inputBox = page.locator('textarea').first();
     await inputBox.fill('www.google.com ekata yanna.');
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(2000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
     const actualOutput = await outputBox.innerText();
-    console.log('[Neg_Fun_009] Expected: Error/URL | Actual: ' + actualOutput);
+    console.log('[Neg_Fun_009] Actual: ' + actualOutput);
   });
 
   test('Neg_Fun_010: Verify handling of random caps', async ({ page }) => {
     const inputBox = page.locator('textarea').first();
     await inputBox.fill('MaMa GeDhaRa YaNaVaA');
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(2000);
     const outputBox = page.locator(OUTPUT_SELECTOR);
     const actualOutput = await outputBox.innerText();
-    console.log('[Neg_Fun_010] Expected: Error/Caps | Actual: ' + actualOutput);
+    console.log('[Neg_Fun_010] Actual: ' + actualOutput);
   });
 
-
-  // --- UI TEST ---
-  
   test('Pos_UI_001: Verify real-time output update', async ({ page }) => {
     const inputBox = page.locator('textarea').first();
     await inputBox.pressSequentially('mama', { delay: 200 });
@@ -336,4 +304,7 @@ test.describe('Assignment 1 - SwiftTranslator Automation', () => {
     await expect(outputBox).not.toBeEmpty();
   });
 
-});
+});await page.getByRole('textbox', { name: 'Input Your Singlish Text Here.' }).click();
+await page.getByRole('textbox', { name: 'Input Your Singlish Text Here.' }).fill('savindu mage yaaluvaa');
+await page.getByRole('textbox', { name: 'Input Your Singlish Text Here.' }).click();
+await page.getByLabel('Clear').click();
